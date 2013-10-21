@@ -50,12 +50,53 @@ public class ClassIcon {
         List<String> lore = new ArrayList<String>();
             lore.add("§d特殊武器: §cパン,クワ");
             lore.add("§fパンで攻撃するとパンを消費し、攻撃されたプレイヤーは");
-            lore.add("§5鈍足§fと§5空腹§f状態になる。");
+            lore.add("§5ショック状態§fになる。");
             lore.add("§f種を持って右クリックすると、種を消費し、§6回復§fする。");
             lore.add("§fクワでクリックすると種を消費し、§5矢§fを§c発射§fする。");
         im.setLore(lore);
         FarmerIcon.setItemMeta(im);
 
         return FarmerIcon;
+    }
+
+    /*
+     * ポエマーの設定
+     */
+    public ItemStack PoemerIcon() {
+        ItemStack PoemerIcon = new ItemStack(Material.PAPER);
+        ItemMeta im = PoemerIcon.getItemMeta();
+        im.setDisplayName(ChatColor.GREEN + "ポエマー");
+        List<String> lore = new ArrayList<String>();
+            lore.add("§d特殊武器: §c紙,バラ,インク");
+            lore.add("§f紙を使用すると、§6ポエム§fを全世界に披露できる。");
+            lore.add("§6ポエム§fは大盛況になり、ポエマーの能力が§c増加§fする。");
+            lore.add("§9インク§fを使用すると、§4大炎上§fし、");
+            lore.add("§fポエマーは§4大爆発§fする。その破壊力は偉大である。");
+            lore.add("§dネザースター§fで攻撃するとネザースターを消費し、攻撃されたプレイヤーは");
+            lore.add("§4恥ずか§c死§fする。");
+        im.setLore(lore);
+        PoemerIcon.setItemMeta(im);
+
+        return PoemerIcon;
+    }
+
+    /*
+     * 学者の設定
+     */
+    public ItemStack ScholarIcon() {
+        ItemStack ScholarIcon = new ItemStack(Material.BRICK);
+        ItemMeta im = ScholarIcon.getItemMeta();
+        im.setDisplayName(ChatColor.GREEN + "学者");
+        List<String> lore = new ArrayList<String>();
+            lore.add("§d特殊武器: §cレンガ,ネザーレンガ");
+            lore.add("§fレンガを使用すると、§c問題§fを作り始める。");
+            lore.add("§c問題§fを作っている間は、§5動けず、周りも見えなくなる。");
+            lore.add("§c問題§fが完成するとネザーレンガを手に入れる。");
+            lore.add("§fネザーレンガで攻撃すると、§c問題§fを解かせることができる。");
+            lore.add("§f問題を解いている間は、§5動けず、周りも見えなくなる。");
+        im.setLore(lore);
+        ScholarIcon.setItemMeta(im);
+
+        return ScholarIcon;
     }
 }

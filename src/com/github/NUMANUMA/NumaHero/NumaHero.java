@@ -12,6 +12,8 @@ public class NumaHero extends JavaPlugin {
     private API API;
     private ClassIcon ClassIcon;
     private ClassFarmer ClassFarmer;
+    private ClassPoemer ClassPoemer;
+    private ClassScholar ClassScholar;
     private HashMap<Player, String> HeroClass = new HashMap<>();
 
     @Override
@@ -23,6 +25,8 @@ public class NumaHero extends JavaPlugin {
         API = new API(this);
         ClassIcon = new ClassIcon(this);
         ClassFarmer = new ClassFarmer(this);
+        ClassPoemer = new ClassPoemer(this);
+        ClassScholar = new ClassScholar(this);
         HeroClass = new HashMap<Player, String>();
 
         //イベントの登録
@@ -30,6 +34,7 @@ public class NumaHero extends JavaPlugin {
         new JoinEvent(this);
         new BreakEvent(this);
         new ClickEvent(this);
+        new HitEvent(this);
     }
 
     public API getAPI() {
@@ -40,6 +45,12 @@ public class NumaHero extends JavaPlugin {
     }
     public ClassFarmer getFarmer() {
         return ClassFarmer;
+    }
+    public ClassPoemer getPoemer() {
+        return ClassPoemer;
+    }
+    public ClassScholar getScholar() {
+        return ClassScholar;
     }
     public HashMap<Player, String> getHeroClass() {
         return HeroClass;
