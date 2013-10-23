@@ -1,3 +1,19 @@
 name: NumaHero
 main: com.github.NUMANUMA.NumaHero.NumaHero
 version: 1.0.0
+commands:
+  spawnworld:
+    description: SpawnWorld.
+    usage: /<command>
+    permission: numahero.spawnworld
+    permission-message: You don't have <permission>
+  world:
+    description: World.
+    usage: /<command>
+    permission: numahero.world
+    permission-message: You don't have <permission>
+  wreset:
+    description: WorldReset.
+    usage: /<command>
+    permission: numahero.world
+    permission-message: You don't have <permission>

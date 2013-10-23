@@ -42,11 +42,13 @@ public class ChooseClass implements Listener {
         ItemStack FarmerIcon = new ItemStack(plugin.getClassIcon().FarmerIcon());
         ItemStack PoemerIcon = new ItemStack(plugin.getClassIcon().PoemerIcon());
         ItemStack ScholarIcon = new ItemStack(plugin.getClassIcon().ScholarIcon());
+        ItemStack StokerIcon = new ItemStack(plugin.getClassIcon().StokerIcon());
 
         Inventory inv = Bukkit.createInventory(player, 9, title);
         inv.setItem(0, FarmerIcon);
         inv.setItem(1, PoemerIcon);
         inv.setItem(2, ScholarIcon);
+        inv.setItem(3, StokerIcon);
         player.openInventory(inv);
 
     }
@@ -69,6 +71,11 @@ public class ChooseClass implements Listener {
                 player.sendMessage("§bあなたは、§a学者§bを選びました。");
                 player.closeInventory();
                 plugin.getScholar().start(player);
+            }
+            if (e.getRawSlot() == 3) {
+                player.sendMessage("§bあなたは、§aストーカー§bを選びました。");
+                player.closeInventory();
+                plugin.getStoker().start(player);
             }
         }
     }

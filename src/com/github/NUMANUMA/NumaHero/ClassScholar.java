@@ -15,7 +15,10 @@ public class ClassScholar {
     /*
      * 学者の道具
      */
-    ItemStack Brick = new ItemStack(Material.CLAY_BRICK,4);
+    ItemStack Brick = new ItemStack(Material.CLAY_BRICK);
+    ItemStack Egg = new ItemStack(Material.EGG,8);
+    ItemStack Bow = new ItemStack(Material.BOW);
+    ItemStack Arrow = new ItemStack(Material.ARROW,64);
     ItemStack Cookie = new ItemStack(Material.COOKIE,32);
     ItemStack Chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
     ItemStack Leggings = new ItemStack(Material.LEATHER_LEGGINGS);
@@ -27,6 +30,9 @@ public class ClassScholar {
 
         //アイテムの追加
         player.getInventory().addItem(Brick);
+        player.getInventory().addItem(Egg);
+        player.getInventory().addItem(Bow);
+        player.getInventory().addItem(Arrow);
         player.getInventory().addItem(Cookie);
         player.getInventory().setChestplate(Chestplate);
         player.getInventory().setLeggings(Leggings);

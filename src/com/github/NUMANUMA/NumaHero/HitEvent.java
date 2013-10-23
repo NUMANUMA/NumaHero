@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,11 +23,11 @@ public class HitEvent implements Listener {
 
     @EventHandler
     public void onPlayerDamage(final EntityDamageByEntityEvent e) {
+        HashMap<Player, String> hero = plugin.getHeroClass();
         if (e.getEntity() instanceof Player) {
+            final Player hitter = (Player) e.getEntity();
             if (e.getDamager() instanceof Player) {
-                final Player hitter = (Player) e.getEntity();
                 final Player damager = (Player) e.getDamager();
-                HashMap<Player, String> hero = plugin.getHeroClass();
 
                 /*
                  * ==========
@@ -137,31 +139,6 @@ public class HitEvent implements Listener {
                  */
                 if (hero.get(damager) == "学者") {
                     /*
-                     * 問題を解かせる
-                     */
-                    if (damager.getItemInHand().getType() == Material.NETHER_BRICK_ITEM) {
-                        /*
-                         * damagerの処理
-                         */
-                        if (damager.getItemInHand().getAmount() == 1) {
-                            damager.setItemInHand(null);
-                        } else if (damager.getItemInHand().getAmount() >= 1) {
-                            damager.getItemInHand().setAmount(damager.getItemInHand().getAmount()-1);
-                        }
-                        damager.sendMessage("§dなかなか難しい問題を解かせた！");
-                        damager.sendMessage("§dこの問題を解くことはできるか！？");
-
-                        /*
-                         * hitterの処理
-                         */
-                        hitter.getServer().broadcastMessage("§b"+ hitter.getName() +"§6が、§9学者 §b" + damager.getName() + "§6の問題に挑戦した！");
-
-                        hitter.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10*20,10));
-                        hitter.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10*20,10));
-                        hitter.sendMessage("§5これは難問だ！解くのに時間がかかるぞ！");
-                    }
-
-                    /*
                      * レンガによる打撃
                      */
                     if (damager.getItemInHand().getType() == Material.CLAY_BRICK) {
@@ -181,6 +158,76 @@ public class HitEvent implements Listener {
                         hitter.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1*20,10));
 
                         hitter.sendMessage("§5痛い！なんて野郎だ！学者としてありえない！");
+                    }
+                }
+            }
+            /*
+             * ~~~~~~~~~~~~~~~
+             *
+             *    間接攻撃
+             *
+             * ~~~~~~~~~~~~~~~
+             */
+            if (e.getDamager() instanceof Projectile) {
+                Projectile proj = (Projectile) e.getDamager();
+                if (proj.getShooter().getType() == EntityType.PLAYER) {
+                    Player damager = (Player)proj.getShooter();
+                    if (hitter != damager) {
+                        if (proj.getType() == EntityType.SNOWBALL) {
+
+                            /*
+                             * =========
+                             * ストーカー
+                             * =========
+                             */
+                            if (hero.get(damager) == "ストーカー") {
+                                /*
+                                 * damagerの処理
+                                 */
+                                damager.sendMessage("§d奴に飛びかかった！絶好のアタックチャンスだ！");
+                                damager.eject();
+                                hitter.setPassenger(damager);
+
+                                /*
+                                 * hitterの処理
+                                 */
+                                e.setDamage(0);
+
+                                hitter.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10*20,2));
+
+                                hitter.sendMessage("§0突然、何者かが飛びついてきた！");
+                            }
+                        }
+                        if (proj.getType() == EntityType.EGG) {
+                            /*
+                             * =======
+                             * 学者
+                             * =======
+                             */
+                            if (hero.get(damager) == "学者") {
+                                /*
+                                 * damagerの処理
+                                 */
+                                if (damager.getItemInHand().getAmount() == 1) {
+                                    damager.setItemInHand(null);
+                                } else if (damager.getItemInHand().getAmount() >= 1) {
+                                    damager.getItemInHand().setAmount(damager.getItemInHand().getAmount()-1);
+                                }
+                                damager.sendMessage("§dなかなか難しい問題を解かせた！");
+                                damager.sendMessage("§dこの問題を解くことはできるか！？");
+
+                                /*
+                                 * hitterの処理
+                                 */
+                                hitter.getServer().broadcastMessage("§b"+ hitter.getName() +"§6が、§9学者 §b" + damager.getName() + "§6の問題に挑戦した！");
+
+                                hitter.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10*20,10));
+                                hitter.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10*20,10));
+                                hitter.sendMessage("§5これは難問だ！解くのに時間がかかるぞ！");
+                            }
+                        }
+                    } else {
+                        return;
                     }
                 }
             }

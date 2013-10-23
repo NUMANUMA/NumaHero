@@ -3,8 +3,10 @@ package com.github.NUMANUMA.NumaHero;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,12 +26,13 @@ public class ClickEvent implements Listener {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
-
+    final HashMap<Player, Boolean> stokerjump = new HashMap<>();
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         final Player player = e.getPlayer();
         HashMap<Player, String> hero = plugin.getHeroClass();
+
         /*
          * NONE
          */
@@ -78,7 +81,7 @@ public class ClickEvent implements Listener {
                     Location loc = player.getLocation();
                     Vector v = loc.getDirection().multiply(3);
                     loc.setY(loc.getY() + 1.6);
-                    Arrow arrow = player.getWorld().spawnArrow(loc.add(v), v, 2.0F, 2);
+                    Arrow arrow = player.getWorld().spawnArrow(loc.add(v), v, 2.0F, 12);
                     arrow.setShooter(player);
                 } else {
                     return;
@@ -143,32 +146,46 @@ public class ClickEvent implements Listener {
         }
 
         /*
-         * ========
-         * 学者
-         * ========
+         * ===========
+         * ストーカー
+         * ===========
          */
-        if (hero.get(player) == "学者") {
-            /*
-             * 問題を作る
-             */
-            if (player.getItemInHand().getType() == Material.CLAY_BRICK) {
-                if (e.getAction() == Action.RIGHT_CLICK_AIR | e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    player.getServer().broadcastMessage("§9学者 §b" + player.getName() + "§6が、問題を作成し始めた！");
+        if (hero.get(player) == "ストーカー") {
+            if (player.getItemInHand().getType() == Material.STONE_AXE) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (stokerjump.get(player) == null) {
 
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 15 * 20, 10));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 15 * 20, 10));
+                        stokerjump.put(player, true);
+                    }
+                    if (stokerjump.get(player) == false) {
+                        return;
+                    }
+                    if (stokerjump.get(player) == true) {
+                        stokerjump.put(player, false);
 
-                    player.getInventory().removeItem(new ItemStack[] {new ItemStack(Material.CLAY_BRICK, 1)});
-                    player.updateInventory();
+                        Location loc = player.getLocation();
 
-                    Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-                        public void run() {
+                        double pitch = ((player.getLocation().getPitch() + 90) * Math.PI) / 180;
+                        double yaw  = ((player.getLocation().getYaw() + 90)  * Math.PI) / 180;
 
-                            player.getInventory().addItem(new ItemStack[] { new ItemStack(Material.NETHER_BRICK_ITEM, 1) });
-                            player.getServer().broadcastMessage("§9学者 §b" + player.getName() + "§6の問題が完成した！");
+                        double x = Math.sin(pitch) * Math.cos(yaw);
+                        double y = Math.sin(pitch) * Math.sin(yaw);
 
-                        }
-                    }, 15 * 20);
+                        Vector vector = new Vector(x, 0.3, y);
+
+                        player.setVelocity(vector.multiply(2));
+                        player.playSound(loc, Sound.BAT_TAKEOFF, 10, 1);
+                        player.getWorld().playEffect(loc, Effect.SMOKE, 5);
+                        player.getWorld().playEffect(loc, Effect.SMOKE, 5);
+                        player.getWorld().playEffect(loc, Effect.SMOKE, 5);
+
+                        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+                            public void run() {
+
+                                stokerjump.put(player, true);
+                            }
+                        },20);
+                    }
                 }
             }
         }

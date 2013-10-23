@@ -88,15 +88,32 @@ public class ClassIcon {
         ItemMeta im = ScholarIcon.getItemMeta();
         im.setDisplayName(ChatColor.GREEN + "学者");
         List<String> lore = new ArrayList<String>();
-            lore.add("§d特殊武器: §cレンガ,ネザーレンガ");
-            lore.add("§fレンガを使用すると、§c問題§fを作り始める。");
-            lore.add("§c問題§fを作っている間は、§5動けず、周りも見えなくなる。");
-            lore.add("§c問題§fが完成するとネザーレンガを手に入れる。");
-            lore.add("§fネザーレンガで攻撃すると、§c問題§fを解かせることができる。");
+            lore.add("§d特殊武器: §cレンガ,卵,弓矢");
+            lore.add("§fレンガで攻撃することができる。");
+            lore.add("§f卵をプレイヤーに命中させると、問題を解かせることができる。");
             lore.add("§f問題を解いている間は、§5動けず、周りも見えなくなる。");
         im.setLore(lore);
         ScholarIcon.setItemMeta(im);
 
         return ScholarIcon;
     }
+
+    /*
+     * ストーカーの設定
+     */
+    public ItemStack StokerIcon() {
+        ItemStack StokerIcon = new ItemStack(Material.JACK_O_LANTERN);
+        ItemMeta im = StokerIcon.getItemMeta();
+        im.setDisplayName(ChatColor.GREEN + "ストーカー");
+        List<String> lore = new ArrayList<String>();
+            lore.add("§d特殊武器: §c雪球,石の斧");
+            lore.add("§f雪球をプレイヤーに命中させると、そのプレイヤーに§5飛び乗る§f事ができる。");
+            lore.add("§f石の斧を持ち、右クリックすると向いている方向に大きくジャンプすることができる。");
+            lore.add("§f斧を構えとんでもない跳躍力で迫ってくるその姿はまごうことなき§2変態");
+        im.setLore(lore);
+        StokerIcon.setItemMeta(im);
+
+        return StokerIcon;
+    }
+
 }
